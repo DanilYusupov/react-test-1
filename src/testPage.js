@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from 'react-redux'
 import { useStopwatch } from 'react-timer-hook';
+import { giveTrophy, clearTrophy } from './state/trophySlice'
 
 export const TestPage = () => {
+
+    const hasTrophy = useSelector((state) => state.trophy.value);
+    const dispatch = useDispatch();
 
     const [buttonColor, setButtonColor] = useState('white');
     const [isDecreasing, setIsDecreasing] = useState(false);
@@ -22,6 +27,16 @@ export const TestPage = () => {
                 setIsDecreasing(false);
             }
         }
+        if (clicks > 0 && (clicks % 10 === 0)) {
+            console.log('Giving trophy');
+            dispatch(giveTrophy())
+        } else {
+            if (hasTrophy) {
+                console.log('Removing trophy');
+                dispatch(clearTrophy());
+            }
+        }
+
         return () => {
             clearTimeout(timer);
         }
