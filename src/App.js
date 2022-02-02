@@ -3,9 +3,11 @@ import trophy from './trophy.png';
 import './App.css';
 import { TestPage } from './testPage';
 import { useSelector } from 'react-redux';
+import { Timer } from './timer';
 
 function App() {
   const trophies = useSelector((state) => state.trophy.value);
+  const overdrive = useSelector((state) => state.overdrive.value);
 
   return (
       <div className="App">
@@ -18,6 +20,9 @@ function App() {
           </div>
           <img src={logo} className="App-logo" alt="logo" />
           <TestPage />
+          <div>
+            {overdrive && <Timer/>}
+          </div>
         </header>
       </div>
   );

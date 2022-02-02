@@ -2,10 +2,12 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { useStopwatch } from 'react-timer-hook';
 import { giveTrophy } from './state/trophySlice'
+import { setOverdrive } from './state/overdriveSlice';
 
 export const TestPage = () => {
 
     const trophies = useSelector((state) => state.trophy.value);
+    const overdrive = useSelector((state) => state.overdrive.value);
     const dispatch = useDispatch();
 
     const [buttonColor, setButtonColor] = useState('white');
@@ -40,17 +42,19 @@ export const TestPage = () => {
     }, [buttonColor, clicks]);
 
     const handleClick = () => {
+        const increment = overdrive ? 2 : 1;
+        checkForOverdrive();
         setButtonColor('white');
         setCountDown(countDown - 1);
         if (seconds > 1) {
-            setClicks(clicks + 1);
+            setClicks(clicks + increment);
             setCountDown(3);
             reset();
         } else {
             if (countDown <= 0) {
                 console.log('More than 3 clicks per second');
             } else {
-                setClicks(clicks + 1);
+                setClicks(clicks + increment);
             }
         }
     }
@@ -60,6 +64,13 @@ export const TestPage = () => {
         if (clicks > 0) {
             setIsDecreasing(true);
             setClicks(clicks - 1);
+        }
+    }
+
+    const checkForOverdrive = () => {
+        if (Math.floor(Math.random() * 20) === 10) {
+        // if (Math.floor(Math.random() * 2) == 1){
+            dispatch(setOverdrive(true));
         }
     }
 
