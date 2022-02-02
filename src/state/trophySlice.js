@@ -3,14 +3,16 @@ import { createSlice } from '@reduxjs/toolkit'
 export const trophySlice = createSlice({
   name: 'trophy',
   initialState: {
-    value: false,
+    value: [],
   },
   reducers: {
     giveTrophy: (state) => {
-        state.value = true;
+        let array = state.value
+        array.push(1);
+        state.value = array;
     },
     clearTrophy: (state) => {
-        state.value = false;
+        state.value = [];
     },
   },
 })
